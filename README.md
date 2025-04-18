@@ -64,6 +64,6 @@ Some examples of passwords and time taken to crack:
 | aa | 5.79 |
 | az | 11.17 |
 | abc | 156.86 |
-| a1# |
+| A# | 972.43 |
 
-As you can see from the table above, there is a huge jump in the time taken to crack a two-letter password versus a three-letter password. While it does take a long time to crack passwords in this method, it is advisable to use a combination of character types and make it longer to ensure your password is much more secure (i.e. `aqifnovi412#!$`). Additionally, it's best to avoid consecutive letters and numbers (i.e. `12345`, `abcdef`, `qwerty`).
+As you can see from the table above, there is a huge jump in the time taken to crack a two-letter password versus a three-letter password and an even larger jump in time taken when adding a special character. While it does take a long time to crack passwords in this method, it is advisable to use a combination of character types and make it longer to ensure your password is much more secure (i.e. `aqifnovi412#!$`). Additionally, it's best to avoid consecutive letters and numbers (i.e. `12345`, `abcdef`, `qwerty`).

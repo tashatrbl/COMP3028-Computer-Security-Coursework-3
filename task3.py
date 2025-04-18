@@ -62,7 +62,7 @@ def intelligent_guess_attack(stored_hash, user_info):
 # or else it will always fail
 def brute_force_attack(stored_hash, max_length= 4):
     print("\n[*] Starting Brute Force Attack ...")
-    chars = string.ascii_lowercase
+    chars = string.ascii_letters + string.digits + string.punctuation
     for length in range(1, max_length + 1):
         for guess_tuple in itertools.product(chars, repeat=length):
             guess = ''.join(guess_tuple)
