@@ -6,6 +6,10 @@ import os
 
 FILENAME = "hashed_password.txt"
 
+# how to run:
+# set the password using task1.py
+# run task3.py after
+
 # loading the file with the hashed password
 def load_hash():
     with open(FILENAME, "rb") as f:
@@ -90,13 +94,11 @@ def main():
     # testing this can take a while; i suggest you comment the attacks you dont want to use
     # or else it can take quite a long time to run
 
-    '''
     # intelligent guess attack
     start = time.time()
     cracked_password = intelligent_guess_attack(stored_hash, user_info)
     end = time.time()
     print(f"[*] Total simulation time for intelligent guess attack: {end - start:.2f} seconds")
-    '''
     
     # brute force
     start = time.time()
@@ -104,13 +106,11 @@ def main():
     end = time.time()
     print(f"[*] Total simulation time for brute force attack: {end - start:.2f} seconds")
     
-    '''
     # dictionary attack first
     start = time.time()
     cracked_password = dictionary_attack(stored_hash)
     end = time.time()
     print(f"[*] Total simulation time for dictionary attack: {end - start:.2f} seconds")
-    '''
     
     if cracked_password:
         print(f"\n Cracked Password: {cracked_password}")
