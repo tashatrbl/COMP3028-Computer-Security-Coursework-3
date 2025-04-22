@@ -79,3 +79,5 @@ Some examples of passwords and time taken to crack:
 | abc123 | 2.22 |
 | garfield | 39.04 |
 | qwerty | 2.09 |
+
+On average, JtR is a little faster than the dictionary attack that we developed earlier as it was able to cut down the time taken to guess the password `garfield` down by more than half. However, it is apparent that it does perform relatively well on passwords that are common and have been used. It is advised to stay away from using such passwords and instead opt for a more unique combination.
