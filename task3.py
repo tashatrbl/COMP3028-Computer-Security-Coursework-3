@@ -5,18 +5,15 @@ import time
 import os
 import subprocess
 
-# task 3 was tested inside VirtualBox on Ubuntu 64-bit
+FILENAME = "hashed_password.txt"
 
 # run with JTR
-# ensure that you run the task 3 from inside john > run 
-# 1. cd john/run
-# 2. python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task3.py
+# cd john/run
+# python3 task3.py
 
 # how to run:
-# set the password using task1.py (python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task1.py)
-# run task3.py after (python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task3.py)
-
-FILENAME = "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/hashed_password.txt"
+# set the password using task1.py
+# run task3.py after
 
 # loading the file with the hashed password
 def load_hash():
@@ -82,10 +79,10 @@ def brute_force_attack(stored_hash, max_length= 4):
     
 # john the ripper
 def write_john_input(stored_hash):
-    with open("/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt", "w", newline="\n") as f:
+    with open("jtr.txt", "w", newline="\n") as f:
         f.write(f"user:{stored_hash.decode()}\n")
         
-    with open("/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt", "r") as f:
+    with open("jtr.txt", "r") as f:
         content = f.read()
         print(f"File length (in characters): {len(content)}")
 
@@ -94,15 +91,15 @@ def john_the_ripper_attack():
 
     # Run john on the input file
     try:
-        subprocess.run(["./john", 
+        subprocess.run(["../john", 
        "--format=bcrypt", 
-       "--wordlist=/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/common_passwords.txt",
-       "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt"], check=True)
+       "--wordlist=common_passwords.txt",
+       "jtr.txt"], check=True)
 
         # Now get the cracked password
-        result = subprocess.run(["./john", 
+        result = subprocess.run(["../john", 
         "--show", 
-        "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt"], 
+        "jtr.txt"], 
         capture_output=True, 
         text=True)
         output = result.stdout.strip()

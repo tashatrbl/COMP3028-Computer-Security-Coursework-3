@@ -1,5 +1,27 @@
 # COMP3028-Computer-Security-Coursework-3
 
+## How to Run:
+Our project relies on John the Ripper for one of the tasks. Ensure that it is installed properly on device.
+1. Clone the John the Ripper (Jumbo) onto device
+```
+git clone https://github.com/openwall/john -b bleeding-jumbo john
+```
+2. Build JtR
+```
+cd ./john/src
+configure && make -s clean && make -sj4
+```
+3.  Test JtR to ensure it works
+```
+cd ./john/run
+./john --test=0
+```
+4. Clone our repo into the run folder
+```
+cd ./john/run
+git clone https://github.com/tashatrbl/COMP3028-Computer-Security-Coursework-3.git
+```
+
 ## Task 2 answer
 
 Question: How MFA improves security compared to a single password, and what threats it mitigates.
@@ -79,3 +101,5 @@ Some examples of passwords and time taken to crack:
 | abc123 | 2.22 |
 | garfield | 39.04 |
 | qwerty | 2.09 |
+
+On average, JtR is a little faster than the dictionary attack that we developed earlier as it was able to cut down the time taken to guess the password `garfield` down by more than half. However, it is apparent that it does perform relatively well on passwords that are common and have been used. It is advised to stay away from using such passwords and instead opt for a more unique combination.
