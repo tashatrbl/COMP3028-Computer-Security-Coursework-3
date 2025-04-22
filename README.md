@@ -1,5 +1,27 @@
 # COMP3028-Computer-Security-Coursework-3
 
+## How to Run:
+Our project relies on John the Ripper for one of the tasks. Ensure that it is installed properly on device.
+1. Clone the John the Ripper (Jumbo) onto device
+```
+git clone https://github.com/openwall/john -b bleeding-jumbo john
+```
+2. Build JtR
+```
+cd ./john/src
+configure && make -s clean && make -sj4
+```
+3.  Test JtR to ensure it works
+```
+cd ./john/run
+./john --test=0
+```
+4. Clone our repo into the run folder
+```
+cd ./john/run
+git clone https://github.com/tashatrbl/COMP3028-Computer-Security-Coursework-3.git
+```
+
 ## Task 2 answer
 
 Question: How MFA improves security compared to a single password, and what threats it mitigates.
