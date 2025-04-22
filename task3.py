@@ -3,12 +3,20 @@ import itertools
 import string
 import time
 import os
+import subprocess
 
-FILENAME = "hashed_password.txt"
+# task 3 was tested inside VirtualBox on Ubuntu 64-bit
+
+# run with JTR
+# ensure that you run the task 3 from inside john > run 
+# 1. cd john/run
+# 2. python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task3.py
 
 # how to run:
-# set the password using task1.py
-# run task3.py after
+# set the password using task1.py (python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task1.py)
+# run task3.py after (python3 /home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/task3.py)
+
+FILENAME = "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/hashed_password.txt"
 
 # loading the file with the hashed password
 def load_hash():
@@ -71,6 +79,49 @@ def brute_force_attack(stored_hash, max_length= 4):
                 return guess
     print("[-] Brute force attack failed.")
     return None
+    
+# john the ripper
+def write_john_input(stored_hash):
+    with open("/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt", "w", newline="\n") as f:
+        f.write(f"user:{stored_hash.decode()}\n")
+        
+    with open("/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt", "r") as f:
+        content = f.read()
+        print(f"File length (in characters): {len(content)}")
+
+def john_the_ripper_attack():
+    print("\n[*] Starting John the Ripper Attack...")
+
+    # Run john on the input file
+    try:
+        subprocess.run(["./john", 
+       "--format=bcrypt", 
+       "--wordlist=/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/common_passwords.txt",
+       "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt"], check=True)
+
+        # Now get the cracked password
+        result = subprocess.run(["./john", 
+        "--show", 
+        "/home/seed/Coursework-3/COMP3028-Computer-Security-Coursework-3/jtr.txt"], 
+        capture_output=True, 
+        text=True)
+        output = result.stdout.strip()
+        
+        # The format is: user:password
+        if ":" in output:
+            cracked = output.split(":")[1].splitlines()[0]
+            print(f"[+] Password cracked using John the Ripper: {cracked}")
+            return cracked
+        else:
+            print("[-] John the Ripper did not crack the password.")
+            return None
+    except FileNotFoundError:
+        print("[-] John the Ripper is not installed or not in PATH.")
+        return None
+    except subprocess.CalledProcessError as e:
+        print(f"[-] Error running John the Ripper: {e}")
+        return None
+
 
 def main():
     if not os.path.exists(FILENAME):
@@ -89,29 +140,52 @@ def main():
 
 
     cracked_password = None
-    
-    # author note by carmel:
-    # testing this can take a while; i suggest you comment the attacks you dont want to use
-    # or else it can take quite a long time to run
+   
+    while True:
+        print("\n=== Which tool would you like to use? ===")
+        print("1. Intelligent Guess Attack")
+        print("2. Brute Force Attack")
+        print("3. Dictionary Attack")
+        print("4. John the Ripper Attack")
+        print("5. Exit")
+        
+        choice = input("Choose a number: ")
+        if choice == "1":
+            # intelligent guess attack
+            start = time.time()
+            cracked_password = intelligent_guess_attack(stored_hash, user_info)
+            end = time.time()
+            print(f"[*] Total simulation time for intelligent guess attack: {end - start:.2f} seconds")
+        elif choice == "2":
+            # brute force
+            start = time.time()
+            cracked_password = brute_force_attack(stored_hash)
+            end = time.time()
+            print(f"[*] Total simulation time for brute force attack: {end - start:.2f} seconds")
+        
+        elif choice == "3":
+            # dictionary attack
+            start = time.time()
+            cracked_password = dictionary_attack(stored_hash)
+            end = time.time()
+            print(f"[*] Total simulation time for dictionary attack: {end - start:.2f} seconds")
+        
+        elif choice == "4":
+            # john the ripper
+            write_john_input(stored_hash)
+            start = time.time()
+            cracked_password = john_the_ripper_attack()
+            end = time.time()
+            print(f"[*] Total simulation time for John the Ripper attack: {end - start:.2f} seconds")
+        
+        elif choice == "5":
+            print("Exiting. Bye 👋")
+            break
 
-    # intelligent guess attack
-    start = time.time()
-    cracked_password = intelligent_guess_attack(stored_hash, user_info)
-    end = time.time()
-    print(f"[*] Total simulation time for intelligent guess attack: {end - start:.2f} seconds")
-    
-    # brute force
-    start = time.time()
-    cracked_password = brute_force_attack(stored_hash)
-    end = time.time()
-    print(f"[*] Total simulation time for brute force attack: {end - start:.2f} seconds")
-    
-    # dictionary attack first
-    start = time.time()
-    cracked_password = dictionary_attack(stored_hash)
-    end = time.time()
-    print(f"[*] Total simulation time for dictionary attack: {end - start:.2f} seconds")
-    
+        else:
+            print("❌ Incorrect selection. Try again.")
+
+    	   
     if cracked_password:
         print(f"\n Cracked Password: {cracked_password}")
     else:

@@ -67,3 +67,15 @@ Some examples of passwords and time taken to crack:
 | A# | 972.43 |
 
 As you can see from the table above, there is a huge jump in the time taken to crack a two-letter password versus a three-letter password and an even larger jump in time taken when adding a special character. While it does take a long time to crack passwords in this method, it is advisable to use a combination of character types and make it longer to ensure your password is much more secure (i.e. `aqifnovi412#!$`). Additionally, it's best to avoid consecutive letters and numbers (i.e. `12345`, `abcdef`, `qwerty`).
+
+### 4. John the Ripper
+In the previous examples, we used our own version of cracking tools - but as an additional experiment, we looked into a very well known cracking tool known as John the Ripper to see how it compares. JtR is an open source password cracking tool that is available for use offline. It is an extended, more efficient form of dictionary attack.
+
+Some examples of passwords and time taken to crack:
+
+| password | time taken (seconds) |
+| --- | --- |
+| password | 2.10 |
+| abc123 | 2.22 |
+| garfield | 39.04 |
+| qwerty | 2.09 |
